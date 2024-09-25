@@ -3,13 +3,9 @@ import requests
 
 # Get OS and platform details
 def get_os_info():
-    """ 
-    return os_type, os_platform_info, os_version
-    """
     os_type = platform.system()
     os_platform_info = platform.platform()
     os_version = platform.release()
-
     return os_type, os_platform_info, os_version
 
 # Replace 'your_ip' with your actual IP address
@@ -34,9 +30,8 @@ def send_os_info(os_type, os_platform_info, os_version):
         print(f"An error occurred: {e}")
 
 def get_and_send_os_info():
-    os_type , os_platform_info, os_version = get_os_info()
+    os_type, os_platform_info, os_version = get_os_info()
     send_os_info(os_type, os_platform_info, os_version)
 
-
-if __name__ == "__main":
-    get_and_send_os_info()        
+if __name__ == "__main__":
+    get_and_send_os_info()

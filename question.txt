@@ -1,0 +1,109 @@
+how can i make infoSender code an Auto Executable script?
+
+To convert your Python script into an executable file, you can use a tool called PyInstaller. 
+This tool bundles a Python program, including all its dependencies, into a single standalone executable. 
+The generated executable can be run on systems that don't have Python installed.
+
+Here’s a step-by-step guide to create an executable from your script:
+
+Step 1: Install PyInstaller
+First, you need to install PyInstaller on your machine using pip:
+
+bash:
+pip install pyinstaller
+
+Step 2: Prepare Your Python Script
+Make sure your Python script (let’s call it get_os_info.py) is properly formatted and working. 
+For example, ensure indentation is correct. let say this is your script with proper indentation:
+
+python code as sample :
+
+import platform
+import requests
+
+# Get OS and platform details
+def get_os_info():
+    os_type = platform.system()
+    os_platform_info = platform.platform()
+    os_version = platform.release()
+    return os_type, os_platform_info, os_version
+
+# Replace 'your_ip' with your actual IP address
+def send_os_info(os_type, os_platform_info, os_version):
+    url = "http://192.168.1.101:369"  # Specify the port if needed
+
+    # Data to be sent
+    data = {
+        "os_type": os_type,
+        "os_platform_info": os_platform_info,
+        "os_version": os_version
+    }
+
+    # Send the data via a POST request
+    try:
+        response = requests.post(url, json=data)
+        if response.status_code == 200:
+            print("Data sent successfully!")
+        else:
+            print(f"Failed to send data. Status code: {response.status_code}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def get_and_send_os_info():
+    os_type, os_platform_info, os_version = get_os_info()
+    send_os_info(os_type, os_platform_info, os_version)
+
+if __name__ == "__main__":
+    get_and_send_os_info()
+
+Step 3: Create the Executable
+Now that your script is ready, follow these steps to convert it into an executable:
+
+Open a terminal (Linux/macOS) or Command Prompt (Windows).
+
+Navigate to the folder where your script is saved:
+
+bash:
+cd /path/to/your/script
+For example, if the script is on your desktop:
+
+bash:
+cd ~/Desktop
+Run PyInstaller to create the executable:
+
+bash:
+pyinstaller --onefile get_os_info.py
+The --onefile flag tells PyInstaller to bundle everything into a single executable file.
+This will create a dist/ folder where your executable will be located.
+Step 4: Run the Executable
+Once the process completes:
+
+On Linux/macOS: Your executable will be in the dist/ directory. You can run it using:
+
+bash:
+./dist/get_os_info
+On Windows: Navigate to the dist directory and double-click on the get_os_info.exe file.
+
+Step 5: Test the Executable
+Test the executable on your machine to make sure it's working properly. 
+The executable should send OS information to the specified IP address and port.
+
+Optional: Customizing the Output Executable
+You can also customize your executable further. Here are some common options:
+
+Add an Icon:
+You can add a custom icon for the executable (Windows only):
+
+bash:
+pyinstaller --onefile --icon=myicon.ico get_os_info.py
+Hide the Console (Windows):
+If you don’t want the console window to pop up, use the --noconsole option (Windows):
+
+bash:
+pyinstaller --onefile --noconsole get_os_info.py
+Step 6: Distribute the Executable
+The generated executable can now be distributed and run on other machines. Ensure you test it in your virtual machine to make sure it behaves as expected.
+
+Important Notes:
+Cross-platform executables: PyInstaller will create executables for the platform it's run on. If you want a Windows executable, run it on Windows; for Linux, run it on Linux.
+Firewall and Security: The script is sending OS information to an external server. Make sure you have permissions and are using this in a controlled lab environment. Operating this on unauthorized systems is illegal.
